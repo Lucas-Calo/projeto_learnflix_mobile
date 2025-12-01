@@ -44,10 +44,7 @@ const CardAtividade = ({ atividade, perfil, alunoId }) => {
     <TouchableOpacity 
       style={[styles.card, { borderLeftColor: containerBorderColor }]}
       onPress={() => {
-        // Navegar para detalhes (vamos criar essa tela na próxima etapa)
-        // Por enquanto, apenas logamos
-        console.log("Navegar para atividade:", atividade.id);
-        // navigation.navigate('DetalhesAtividade', { atividadeId: atividade.id }); 
+        navigation.navigate('DetalhesAtividade', { atividadeId: atividade.id }); 
       }}
     >
       <View style={styles.header}>

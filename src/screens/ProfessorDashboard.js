@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../contexts/AuthContext';
 import { useAtividades } from '../contexts/AtividadeContext';
 import CardAtividade from '../components/CardAtividade';
 
 export default function ProfessorDashboardScreen() {
+  const navigation = useNavigation();
   const { user, logout } = useAuth();
   const { atividades } = useAtividades();
 
@@ -23,7 +25,10 @@ export default function ProfessorDashboardScreen() {
       </View>
 
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.createButton} onPress={() => console.log("Ir para Criar")}>
+        <TouchableOpacity 
+          style={styles.createButton} 
+          onPress={() => navigation.navigate('CriarAtividade')}
+        >
           <Text style={styles.createButtonText}>+ Criar Atividade</Text>
         </TouchableOpacity>
       </View>

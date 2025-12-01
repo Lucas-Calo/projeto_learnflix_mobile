@@ -6,6 +6,10 @@ import LoginScreen from '../screens/LoginScreen';
 import AlunoDashboardScreen from '../screens/AlunoDashboard';
 import ProfessorDashboardScreen from '../screens/ProfessorDashboard'; 
 import GestorDashboardScreen from '../screens/GestorDashboard'; 
+import DetalhesAtividadeScreen from '../screens/DetalhesAtividadeScreen';
+import CriarAtividadeScreen from '../screens/CriarAtividadeScreen';
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +18,8 @@ export default function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>        
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        
         {!user ? (
           <Stack.Screen name="Login" component={LoginScreen} />
         ) : (
@@ -27,6 +32,12 @@ export default function AppNavigator() {
             )}
             {user.profile === 'Gestor' && (
               <Stack.Screen name="GestorDashboard" component={GestorDashboardScreen} />
+            )}
+            
+            <Stack.Screen name="DetalhesAtividade" component={DetalhesAtividadeScreen} />
+            
+            {user.profile === 'Professor' && (
+               <Stack.Screen name="CriarAtividade" component={CriarAtividadeScreen} />
             )}
           </>
         )}
