@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
+import KeyboardWrapper from '../components/KeyboardWrapper';
+import { getShadow } from '../utils/uiHelper';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -25,39 +27,42 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.content}>
-          <Text style={styles.title}>LearnFlix</Text>
-          
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>E-mail:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite seu e-mail"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
+      {/* usei o KeyboardWrapper para tratar o teclado em iOS/Android */}
+      <KeyboardWrapper>
+        <View style={styles.contentContainer}>
+          <View style={styles.content}>
+            <Text style={styles.title}>LearnFlix</Text>
+            
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>E-mail:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite seu e-mail"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Senha:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite sua senha"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+            </View>
+
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Entrar</Text>
+            </TouchableOpacity>
+
           </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Senha:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite sua senha"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-          </View>
-
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Entrar</Text>
-          </TouchableOpacity>
-
         </View>
-      </ScrollView>
+      </KeyboardWrapper>
     </SafeAreaView>
   );
 }
@@ -67,20 +72,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f0f9',
   },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'center', 
+    padding: 20,
   },
   content: {
-    padding: 20,
     backgroundColor: '#fff',
-    margin: 20,
+    padding: 20,
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5, 
+    ...getShadow(5),
   },
   title: {
     fontSize: 28,
