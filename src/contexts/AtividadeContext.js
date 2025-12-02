@@ -1,12 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { 
-  collection, 
-  addDoc, 
-  deleteDoc, 
-  updateDoc, 
-  doc, 
-  onSnapshot, 
-  query 
+  collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, query 
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
@@ -16,19 +10,13 @@ export const AtividadeProvider = ({ children }) => {
   const [atividades, setAtividades] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Carregar dados em Tempo Real (Listener do Firestore)
   useEffect(() => {
     const q = query(collection(db, "atividades"));
-
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const listaAtividades = [];
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        listaAtividades.push({ 
-          id: doc.id, 
-          ...data,
-          entregas: data.entregas || {} 
-        });
+        listaAtividades.push({ id: doc.id, ...data, entregas: data.entregas || {} });
       });
       setAtividades(listaAtividades);
       setLoading(false);
@@ -36,41 +24,24 @@ export const AtividadeProvider = ({ children }) => {
       console.error("Erro ao buscar atividades:", error);
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 
-  // Funções de Negócio
-
   const addAtividade = async (atividade) => {
     try {
-      await addDoc(collection(db, "atividades"), {
-        ...atividade,
-        entregas: {}
-      });
-    } catch (e) {
-      console.error("Erro ao adicionar atividade:", e);
-    }
+      await addDoc(collection(db, "atividades"), { ...atividade, entregas: {} });
+    } catch (e) { console.error("Erro adicionar:", e); }
   };
 
   const deleteAtividade = async (id) => {
-    try {
-      await deleteDoc(doc(db, "atividades", id));
-    } catch (e) {
-      console.error("Erro ao deletar atividade:", e);
-    }
+    try { await deleteDoc(doc(db, "atividades", id)); } catch (e) { console.error("Erro deletar:", e); }
   };
 
   const updateAtividade = async (id, dados) => {
-    try {
-      const atividadeRef = doc(db, "atividades", id);
-      await updateDoc(atividadeRef, dados);
-    } catch (e) {
-      console.error("Erro ao atualizar atividade:", e);
-    }
+    try { await updateDoc(doc(db, "atividades", id), dados); } catch (e) { console.error("Erro atualizar:", e); }
   };
 
-  const entregarAtividade = async (atividadeId, alunoId, fotoUri = null) => {
+  const entregarAtividade = async (atividadeId, alunoId, fotoUri = null, documento = null) => {
     try {
       const atividadeRef = doc(db, "atividades", atividadeId);
       
@@ -79,14 +50,13 @@ export const AtividadeProvider = ({ children }) => {
         dataEntregaAluno: new Date().toISOString(),
         nota: null,
         feedback: null,
-        foto: fotoUri || null
+        foto: fotoUri || null,
+        documento: documento || null 
       };
 
-      // Atualiza no Firestore usando dot notation para afetar apenas este aluno
       await updateDoc(atividadeRef, {
         [`entregas.${alunoId}`]: novaEntrega
       });
-            
     } catch (e) {
       console.error("Erro ao entregar atividade:", e);
     }
@@ -94,10 +64,9 @@ export const AtividadeProvider = ({ children }) => {
 
   const avaliarEntrega = async (atividadeId, alunoId, nota, feedback) => {
     try {
-      // Busca a atividade atual do estado para pegar dados antigos da entrega se necessário
       const atividade = atividades.find(a => a.id === atividadeId);
       if (!atividade) return;
-
+      
       const entregaAtual = atividade.entregas ? atividade.entregas[alunoId] : {};
       const notaNum = parseFloat(nota);
       const statusFinal = notaNum >= 6 ? 'Aprovado' : 'Reprovado';
@@ -109,26 +78,15 @@ export const AtividadeProvider = ({ children }) => {
         status: statusFinal
       };
 
-      const atividadeRef = doc(db, "atividades", atividadeId);
-      
-      await updateDoc(atividadeRef, {
+      await updateDoc(doc(db, "atividades", atividadeId), {
         [`entregas.${alunoId}`]: entregaAvaliada
       });
-
-    } catch (e) {
-      console.error("Erro ao avaliar entrega:", e);
-    }
+    } catch (e) { console.error("Erro avaliar:", e); }
   };
 
   return (
     <AtividadeContext.Provider value={{ 
-      atividades, 
-      addAtividade, 
-      deleteAtividade, 
-      updateAtividade, 
-      entregarAtividade, 
-      avaliarEntrega,
-      loading 
+      atividades, addAtividade, deleteAtividade, updateAtividade, entregarAtividade, avaliarEntrega, loading 
     }}>
       {children}
     </AtividadeContext.Provider>
