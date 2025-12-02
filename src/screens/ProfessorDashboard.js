@@ -6,11 +6,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { useAtividades } from '../contexts/AtividadeContext';
 import CardAtividade from '../components/CardAtividade';
 
-export default function ProfessorDashboardScreen() {
+export default function ProfessorDashboard() {
   const navigation = useNavigation();
   const { user, logout } = useAuth();
   const { atividades } = useAtividades();
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,6 +34,7 @@ export default function ProfessorDashboardScreen() {
 
       <FlatList
         data={atividades}
+        extraData={atividades}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
           <CardAtividade 

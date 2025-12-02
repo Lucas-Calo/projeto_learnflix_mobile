@@ -16,21 +16,21 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Se o utilizador fez login, precisamos de ir buscar os dados extras (perfil, nome)
-        // que estão guardados na base de dados (Firestore)
         try {
           const docRef = doc(db, "usuarios", firebaseUser.uid);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
             setUser({
+              id: firebaseUser.uid, 
               uid: firebaseUser.uid,
               email: firebaseUser.email,
-              ...docSnap.data()
+              ...docSnap.data() 
             });
           } else {
-            // Fallback se não tiver dados no banco (ex: criado manualmente só no Auth)
+            // Fallback
             setUser({ 
+              id: firebaseUser.uid, 
               uid: firebaseUser.uid, 
               email: firebaseUser.email, 
               name: 'Utilizador', 
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
             });
           }
         } catch (error) {
-          console.error("Erro ao buscar dados do perfil:", error);
+          console.error("Erro ao buscar dados:", error);
         }
       } else {
         setUser(null);
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       let message = 'Erro ao fazer login.';
       if (error.code === 'auth/invalid-email') message = 'E-mail inválido.';
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') message = 'E-mail ou senha incorretos.';
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') message = 'Credenciais incorretas.';
       if (error.code === 'auth/wrong-password') message = 'Senha incorreta.';
       return { success: false, message };
     }
