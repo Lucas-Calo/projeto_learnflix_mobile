@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, setDoc, getDocs } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, deleteDoc } from "firebase/firestore";
 import { auth, db } from '../config/firebase';
 
 // Esta função cria a conta (Auth) E salva os dados (Firestore)...
@@ -9,8 +9,8 @@ export const registerUser = async (userData) => {
     const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
     const uid = userCredential.user.uid;
 
-    // 2. Guarda os dados do perfil na base de dados
-    // Usamos o UID como chave do documento para ser fácil de relacionar
+    // Guarda os dados do perfil na base de dados
+    // Usei o UID como chave do documento para ser fácil de relacionar
     await setDoc(doc(db, "usuarios", uid), {
       name: userData.name,
       email: userData.email,
@@ -43,4 +43,12 @@ export const getAllUsers = async () => {
 };
 
 
-// obs: A função 'login' foi movida para o AuthContext
+export const deleteUser = async (userId) => {
+  try {
+    await deleteDoc(doc(db, "usuarios", userId));
+    return { success: true };
+  } catch (error) {
+    console.error("Erro ao deletar usuário:", error);
+    return { success: false, message: error.message };
+  }
+};

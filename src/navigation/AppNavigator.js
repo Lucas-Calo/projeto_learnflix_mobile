@@ -14,6 +14,7 @@ import GestorDashboardScreen from '../screens/GestorDashboard';
 import DetalhesAtividadeScreen from '../screens/DetalhesAtividadeScreen';
 import CriarAtividadeScreen from '../screens/CriarAtividadeScreen'; 
 import CameraScreen from '../screens/CameraScreen'; 
+import RegisterUserScreen from '../screens/RegisterUserScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,11 +41,16 @@ export default function AppNavigator() {
             {user.profile === 'Aluno' && (
               <Stack.Screen name="AlunoDashboard" component={AlunoDashboardScreen} />
             )}
+            
             {user.profile === 'Professor' && (
               <Stack.Screen name="ProfessorDashboard" component={ProfessorDashboardScreen} />
             )}
+
             {user.profile === 'Gestor' && (
-              <Stack.Screen name="GestorDashboard" component={GestorDashboardScreen} />
+              <>
+                <Stack.Screen name="GestorDashboard" component={GestorDashboardScreen} />
+                <Stack.Screen name="RegisterUser" component={RegisterUserScreen} />
+              </>
             )}
             
             {/* Telas Comuns */}
