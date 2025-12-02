@@ -45,11 +45,15 @@ const CardAtividade = ({ atividade, perfil, alunoId }) => {
     
     if (todasEntregas.some(e => e.status === 'Aguardando Avaliação')) {
       statusTexto = 'A Avaliar';
-      statusColor = '#2196f3'; // Azul
+      statusColor = '#2196f3';
     } 
     else if (todasEntregas.length > 0 && todasEntregas.every(e => e.status === 'Aprovado' || e.status === 'Reprovado')) {
-      statusTexto = 'Corrigido';
+      statusTexto = 'Avaliações em Dia';
       statusColor = '#4caf50';
+    }
+    else {
+      statusTexto = 'Aguardando Entregas';
+      statusColor = '#9e9e9e';
     }
   }
 
@@ -87,6 +91,12 @@ const CardAtividade = ({ atividade, perfil, alunoId }) => {
         <Text style={styles.dateLabel}>
           Prazo: <Text style={styles.dateValue}>{formatarData(atividade.dataEntrega)}</Text>
         </Text>
+
+        {perfil === 'professor' && (
+           <Text style={styles.dateLabel}>
+             Entregues: <Text style={styles.dateValue}>{Object.keys(entregas).length}</Text>
+           </Text>
+        )} 
       </View>
     </TouchableOpacity>
   );
