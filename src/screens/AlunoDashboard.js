@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../contexts/AuthContext';
 import { useAtividades } from '../contexts/AtividadeContext';
 import CardAtividade from '../components/CardAtividade';
+import CitacaoDoDia from '../components/CitacaoDoDia';
 
 export default function AlunoDashboardScreen() {
   const { user, logout } = useAuth();
@@ -25,9 +26,9 @@ export default function AlunoDashboardScreen() {
           <Text style={styles.logoutText}>Sair</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Lista de Atividades */}
+      
       <FlatList
+        ListHeaderComponent={<CitacaoDoDia />} 
         data={atividadesOrdenadas}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
@@ -38,7 +39,7 @@ export default function AlunoDashboardScreen() {
           />
         )}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Nenhuma atividade pendente. Parabéns!</Text>
+          <Text style={styles.emptyText}>Você não tem nenhuma atividade pendente. Parabéns!</Text>
         }
         contentContainerStyle={styles.listContent}
       />

@@ -2,9 +2,9 @@ O LearnFlix Mobile é uma aplicação nativa desenvolvida com React Native (Expo
 
 📱 Funcionalidades Principais:
 
-📌 Autenticação Real: Login seguro com E-mail e Senha via Firebase Authentication.
+● Autenticação Real: Login seguro com E-mail e Senha via Firebase Authentication.
 
-📌 Perfis de Acesso:
+● Perfis de Acesso:
 
 ⚪️ Aluno: Visualiza atividades, entrega trabalhos, tira fotos do caderno e anexa PDFs.
 
@@ -14,15 +14,15 @@ O LearnFlix Mobile é uma aplicação nativa desenvolvida com React Native (Expo
 
 Recursos Nativos:
 
-📌 Câmera: Captura de fotos para anexar à entrega.
+● Câmera: Captura de fotos para anexar à entrega.
 
-📌 Documentos: Seleção de arquivos PDF do dispositivo.
+● Documentos: Seleção de arquivos PDF do dispositivo.
 
-📌 Gestos: Navegação intuitiva com "swipe-to-back".
+● Gestos: Navegação intuitiva com "swipe-to-back".
 
-📌 Persistência na Nuvem: Todos os dados (usuários, atividades, entregas) são sincronizados em tempo real com o Cloud Firestore.
+● Persistência na Nuvem: Todos os dados (usuários, atividades, entregas) são sincronizados em tempo real com o Cloud Firestore.
 
-📌 UX Aprimorada: Tratamento de teclado (KeyboardAvoidingView), sombras nativas e animações de transição.
+● UX Aprimorada: Tratamento de teclado (KeyboardAvoidingView), sombras nativas e animações de transição.
 
 
 🚀 Como Rodar o Projeto:
@@ -31,11 +31,11 @@ Pré-requisitos
 
 Certifique-se de ter instalado:
 
-📌 Node.js (v18 ou superior)
+● Node.js (v18 ou superior)
 
-📌 Git
+● Git
 
-📌 Expo Go no seu celular (Android ou iOS) OU um Simulador (Xcode/Android Studio).
+● Expo Go no seu celular (Android ou iOS) OU um Simulador (Xcode/Android Studio).
 
 Passo a Passo:
 
@@ -88,15 +88,15 @@ Aluno 2 | satoshinakamoto@learnflix.com |123456
 
 🛠️ Tecnologias Utilizadas
 
-📌 React Native (Expo SDK 52)
+● React Native (Expo SDK 52)
 
-📌 React Navigation (Native Stack)
+● React Navigation (Native Stack)
 
-📌 Firebase (Auth & Firestore)
+● Firebase (Auth & Firestore)
 
-📌 Expo Camera & Document Picker
+● Expo Camera & Document Picker
 
-📌 AsyncStorage (Persistência local de sessão)
+● AsyncStorage (Persistência local de sessão)
 
 👤 Autor
 
